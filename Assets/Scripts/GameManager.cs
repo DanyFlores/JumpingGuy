@@ -11,16 +11,31 @@ public enum GamesState
 
 public class GameManager : MonoBehaviour {
 
+    public static GameManager sharedInstance;
+
     public GamesState currentGameState = GamesState.nemu;
+
+    void Awake()
+    {
+        sharedInstance = this;
+    }
 
     void Start()
     {
-        StartGame();
+       currentGameState = GamesState.nemu;
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown("space"))
+        {
+            currentGameState = GamesState.inTheGame;
+        }
     }
 
 	// se llama para inicar el juego o la partida
 	public void StartGame () {
-        ChangeGameState(GamesState.inTheGame);
+       ChangeGameState(GamesState.inTheGame);
 	}
 	
 	// se llama cuando el jugador muere

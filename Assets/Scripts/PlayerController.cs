@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
+    public static PlayerController sharedInstance;
+
     public float jumpForce = 6.0f;
     public float runningSpeed = 2.5f;
     private Rigidbody2D rigiBody;
@@ -12,6 +14,7 @@ public class PlayerController : MonoBehaviour {
 
     void Awake()
     {
+        sharedInstance = this;
         rigiBody = GetComponent<Rigidbody2D>();
         
     }
@@ -33,15 +36,22 @@ public class PlayerController : MonoBehaviour {
 
     void FixedUpdate()
     {
-        if (rigiBody.velocity.x < runningSpeed)
+        if (GameManager.sharedInstance.currentGameState == GamesState.inTheGame)
+        {
+            if (rigiBody.velocity.x < runningSpeed)
             rigiBody.velocity = new Vector2(runningSpeed, rigiBody.velocity.y);
+        }
+        
     }
 
     void Jump()
     {
-        if (IsOnTheFloor())
+        if(GameManager.sharedInstance.currentGameState == GamesState.inTheGame)
         {
-            rigiBody.AddForce (Vector2.up * jumpForce, ForceMode2D.Impulse);
+            if (IsOnTheFloor())
+            {
+                rigiBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            }
         }
 
     }
@@ -57,5 +67,11 @@ public class PlayerController : MonoBehaviour {
             return false;    
         }
             
+    }
+
+    public void KillerPlayer()
+    {
+        GameManager.sharedInstance.GameOver();
+        animator.SetBool("isAlive",false);
     }
 }
