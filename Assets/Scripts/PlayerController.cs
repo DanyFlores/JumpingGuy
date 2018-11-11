@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour {
     public LayerMask groundLayerMask;
     public Animator animator; 
 
+
     void Awake()
     {
         sharedInstance = this;

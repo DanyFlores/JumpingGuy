@@ -34,7 +34,8 @@ public class GameManager : MonoBehaviour {
     }
 
 	// se llama para inicar el juego o la partida
-	public void StartGame () {
+	public void StartGame ()
+    {
        ChangeGameState(GamesState.inTheGame);
 	}
 	
